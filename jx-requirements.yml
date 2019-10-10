@@ -1,20 +1,59 @@
 autoUpdate:
   enabled: true
-  schedule: '0 0 * * *'
+  schedule: 0 0 * * *
+bootConfigURL: https://github.com/cloudbees/arcalos-boot-config.git
 cluster:
-  clusterName: ""
-  environmentGitOwner: ""
-  project: ""
+  azure: {}
+  clusterName: jx-aps-pr-243-5arc
+  environmentGitOwner: jenkins-x-bot-test
+  environmentGitPublic: true
+  externalDNSSAName: jx-aps-pr-243-5arc-dn
+  gitKind: github
+  gitName: github
+  gitServer: https://github.com
+  kanikoSAName: jx-aps-pr-243-5arc-ko
+  namespace: jx
+  project: aps-pr-243-5arc
   provider: gke
-  zone: ""
-gitops: true
+  registry: gcr.io
+  vaultName: jx-aps-pr-243-5arc
+  vaultSAName: jx-aps-pr-243-5arc-vt
+  zone: us-east1-c
 environments:
-- key: dev
-- key: staging
-- key: production
+- ingress:
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: dev
+- ingress:
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: staging
+- ingress:
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: production
+gitops: true
 ingress:
-  domain: ""
-  externalDNS: false
+  cloud_dns_secret_name: external-dns-gcp-sa
+  domain: aps-pr-243-5arc.jxaas.io
+  domainIssuerURL: https://jx-tenant-service-jx-staging.jenkins-x.live
+  externalDNS: true
+  namespaceSubDomain: -jx.
   tls:
     email: jenkins-x@cloudbees.com
     enabled: true
@@ -22,13 +61,26 @@ ingress:
 kaniko: true
 secretStorage: vault
 storage:
+  backup:
+    enabled: true
+    url: gs://aps-pr-243-5arc-backup
   logs:
-    enabled: false
-    url: ""
+    enabled: true
+    url: gs://aps-pr-243-5arc-lts
   reports:
     enabled: false
     url: ""
   repository:
     enabled: false
     url: ""
+vault:
+  bucket: aps-pr-243-5arc-vault
+  key: jx-aps-pr-243-5arc-crypto-key
+  keyring: jx-aps-pr-243-5arc-keyring
+  name: jx-aps-pr-243-5arc
+  serviceAccount: jx-aps-pr-243-5arc-vt
+velero: {}
+versionStream:
+  ref: v0.0.8
+  url: https://github.com/cloudbees/arcalos-jenkins-x-versions.git
 webhook: prow
